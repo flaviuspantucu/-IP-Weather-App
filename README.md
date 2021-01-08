@@ -25,7 +25,7 @@ Aplicația va conține un fișier de configurare care conține pe fiecare linie 
 Config.cfg
 
 ```json
-ID              nm			lat             lon         countryCode
+ID              nm          lat             lon         countryCode
 819827          Razvilka    55.591667       37.740833   RU
 524901          Moscow      55.752220       37.615555   RU
 2973393	        Tarascon    43.805828        4.660280   FR
