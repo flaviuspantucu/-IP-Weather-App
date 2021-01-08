@@ -12,24 +12,24 @@ Acest proiect conține o aplicație ce se ocupă aflarea informațiilor despre v
 
 
 ## Parametrii
-[X] Country - reprezintă țara in care vom cauta informații legate de vremea unui oraș
-[X] City - reprezintă orașul pe care îl vom cauta
+- [x] Country - reprezintă țara in care vom cauta informații legate de vremea unui oraș
+- [x] City - reprezintă orașul pe care îl vom cauta
 
 ## Config
 Aplicația va conține un fișier de configurare care conține pe fiecare linie următoarele:
-[X] ID - reprezintă ID-ul orașului
-[X] nm - reprezintă numele orașului 
-[X] lat & lon - reprezintă coordonatele geografice ale orașului
-[X] countryCode - reprezintă numele țarii in format prescurtat
+- [x] ID - reprezintă ID-ul orașului
+- [x] nm - reprezintă numele orașului 
+- [x] lat & lon - reprezintă coordonatele geografice ale orașului
+- [x] countryCode - reprezintă numele țarii in format prescurtat
 
 Config.cfg
 
 ```json
-ID				nm			lat				lon			countryCode
-819827	        Razvilka	55.591667       37.740833	RU
-524901	        Moscow	    55.752220       37.615555	RU
-2973393	        Tarascon	43.805828       4.660280	FR
-2986678	        Ploufragan	48.491409       -2.794580	FR
+ID              nm			lat             lon         countryCode
+819827          Razvilka    55.591667       37.740833   RU
+524901          Moscow      55.752220       37.615555   RU
+2973393	        Tarascon    43.805828        4.660280   FR
+2986678	        Ploufragan  48.491409       -2.794580   FR
 ```
 
 ## Limbaj
