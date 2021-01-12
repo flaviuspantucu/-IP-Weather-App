@@ -1,0 +1,20 @@
+Romania Bucharest
+Romania Craiova
+England London
+England Manchester
+Spain Barcelona
+Spain Madrid
+France Paris
+France Lyon
+Germany Berlin
+Germany Leipzig
+Portugal Lisbon
+Portugal Braga
+United States of America Los Angeles
+United States of America Washington
+Italy Roma
+Italy Milano
+China Beijing
+China Shanghai
+Japan Tokyo
+Japan Osaka

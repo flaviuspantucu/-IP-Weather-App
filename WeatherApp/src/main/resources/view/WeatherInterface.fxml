@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" prefHeight="500" prefWidth="800" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+      <AnchorPane fx:id="myMainLabel" prefHeight="514.0" prefWidth="881.0">
+         <children>
+              <ImageView fx:id="myImg" fitHeight="80.0" fitWidth="79.0" layoutX="513.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true" />
+              <ChoiceBox fx:id="myCountryBox" layoutX="48.0" layoutY="91.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0">
+              </ChoiceBox>
+              <ChoiceBox fx:id="myCityBox" layoutX="48.0" layoutY="210.0" prefHeight="40.0" prefWidth="250.0">
+              </ChoiceBox>
+            <Text layoutX="48.0" layoutY="73.0" text="Country:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text layoutX="48.0" layoutY="187.0" text="City:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+             <Label fx:id="dateLabel" layoutX="570.0" layoutY="116.0" prefHeight="30.0" prefWidth="159.0" textAlignment="RIGHT">
+              <font>
+                  <Font name="Times New Roman Italic" size="14.0" />
+              </font>
+             </Label>
+            <Label fx:id="myCityLabel" layoutX="520.0" layoutY="78.0" prefHeight="30.0" prefWidth="143.0">
+               <font>
+                  <Font name="Times New Roman" size="30.0" />
+               </font></Label>
+            <Label fx:id="myAditionalLabel" alignment="CENTER" layoutX="476.0" layoutY="250.0" prefHeight="34.0" prefWidth="187.0">
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="myPressureLabel" layoutX="499.0" layoutY="292.0" prefHeight="34.0" prefWidth="187.0">
+               <font>
+                  <Font name="Times New Roman" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="myWindSpeedLabel" layoutX="499.0" layoutY="326.0" prefHeight="30.0" prefWidth="187.0">
+               <font>
+                  <Font name="Times New Roman" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="myHumidityLabel" layoutX="498.0" layoutY="362.0" prefHeight="24.0" prefWidth="187.0">
+               <font>
+                  <Font name="Times New Roman" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="myCloudinessLabel" layoutX="498.0" layoutY="393.0" prefHeight="24.0" prefWidth="187.0">
+               <font>
+                  <Font name="Times New Roman" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="myTempLabel" layoutX="606.0" layoutY="152.0" prefHeight="80.0" prefWidth="87.0">
+               <font>
+                  <Font name="Times New Roman Bold" size="25.0" />
+               </font>
+            </Label>
+            <Label fx:id="myDescriptionLabel" alignment="CENTER" layoutX="441.0" layoutY="119.0" prefHeight="24.0" prefWidth="159.0">
+               <font>
+                  <Font name="Times New Roman Italic" size="14.0" />
+               </font></Label>
+         </children>
+      </AnchorPane>
+    </children>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+</VBox>
