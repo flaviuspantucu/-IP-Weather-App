@@ -2,33 +2,58 @@ package ro.mta.se.lab.model;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Class implementing the Model of the lists part of the application
+ * Implements functions that fill the lists of cities and countries
+ *
+ * @author Panțucu Flavius-Marian
+ */
 public class WeatherModel {
+    /**
+     * Class used to remember city details
+     *
+     */
     public static class Entry{
-        StringProperty city;
-        StringProperty country;
-
+        /**
+         * Member description
+         */
+        private String city;
+        private String country;
+        /**
+         * Entry class constructor
+         * @param _city Parameter stores the city name
+         * @param _country Parameter stores the country name
+         */
         public Entry(String _city, String _country){
-            this.city = new SimpleStringProperty(_city);
-            this.country = new SimpleStringProperty(_country);
+            this.city = _city;
+            this.country = _country;
         }
-        public StringProperty getCountry(){
+        /**
+         * Getters for private fields
+         *
+         */
+        public String getCountry(){
             return this.country;
         }
-        public StringProperty getCity(){
+        public String getCity(){
             return this.city;
         }
     }
-
+    /**
+     * Member description
+     */
     private ArrayList<StringProperty> countryList;
     private ArrayList<Entry> cityList;
-
+    /**
+     * WeatherModel class constructor
+     * @param inputFile Parameter filename that stores the configuration
+     *
+     */
     public WeatherModel(String inputFile) throws IOException {
         this.countryList = new ArrayList<>();
         this.cityList = new ArrayList<>();
@@ -45,15 +70,22 @@ public class WeatherModel {
                 countryList.add(new SimpleStringProperty(aux[0]));
         }
     }
-
-    public void setCountryList(ArrayList<StringProperty> _countryList){
-        this.countryList = new ArrayList<>(_countryList);
+    /**
+     * Function that returns city Entry
+     * @param _city Parameter that stores city name
+     * @return an Entry of a city
+     */
+    public Entry getCityEntry(String _city){
+        for( Entry city : cityList) {
+            if (city.getCity().toString() == _city)
+                return city;
+        }
+        return null;
     }
-
-    public void setCityList(ArrayList<Entry> _cityList){
-        this.cityList = new ArrayList<>(_cityList);
-    }
-
+    /**
+     * WeatherModel getters for private fields
+     *
+     */
     public ArrayList<Entry> getCityList(){
         return this.cityList;
     }

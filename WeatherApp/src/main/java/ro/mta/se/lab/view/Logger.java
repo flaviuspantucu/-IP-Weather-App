@@ -5,9 +5,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+/**
+ * Class implementing the Logger part of the application
+ * Implements the write function which the app is going to use to store the weather searches.
+ *
+ * @author Panțucu Flavius-Marian
+ */
 public class Logger {
-
     /**
      * Singleton instance of the class
      */
@@ -16,7 +20,6 @@ public class Logger {
      * The outFile to log if this is set
      */
     private FileWriter outputFile;       // the writer who will do the job done writing output
-
     /**
      * Logger class constructor
      */
@@ -30,7 +33,6 @@ public class Logger {
             instance = new Logger();
         return instance;
     }
-
     /**
      * Sets the new outFile for the logger to print to.
      *
@@ -44,7 +46,6 @@ public class Logger {
         out.createNewFile();
         outputFile = new FileWriter(out, true);
     }
-
     /**
      * Write output on the the specified file
      *

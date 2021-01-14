@@ -1,10 +1,7 @@
 package ro.mta.se.lab.model;
 
-import javafx.scene.image.Image;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import ro.mta.se.lab.view.Logger;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -14,129 +11,146 @@ import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+/**
+ * Class implementing the Model of the City weather details and JSON respond from api url
+ * Implements functions parse the JSON
+ *
+ * @author Panțucu Flavius-Marian
+ */
 public class WeatherManager {
-    private String city;
-    private String day;
-    private String icon;
-    private String main;
-    private long temperature;
-    private long windSpeed;
-    private long cloudiness;
-    private long pressure;
-    private long humidity;
-
-    public WeatherManager(String city) {
-        this.city = city;
+    /**
+     * Member description
+     */
+    private static WeatherInfo City;
+    private static JSONObject weatherJSON;
+    /**
+     * WeatherManager class constructor
+     * @param _city Parameter stores the city entry
+     */
+    public WeatherManager(WeatherModel.Entry _city) throws IOException {
+        String resultJSON = getResultJSON(createUrlString("1f13b5ccc40bdd6bacb7acedb6d9299c",_city.getCity()));
+        weatherJSON = new JSONObject(resultJSON);
+        getWeather(_city);
     }
-
-    //Build a String from the read Json file
-    public void getWeather() throws IOException {
+    /**
+     * Function that returns url for api
+     * @param API_KEY Parameter that stores api key
+     * @param LOCATION Parameter that store city name
+     */
+    public static String createUrlString(String API_KEY, String LOCATION){
+        String url = "http://api.openweathermap.org/data/2.5/weather?q=" + LOCATION + "&appid=" + API_KEY;
+        return url;
+    }
+    /**
+     * Function that returns jsonResult
+     * @param URL_CONNECTION Parameter that url used for getting json results
+     */
+    public static String getResultJSON(String URL_CONNECTION) throws IOException {
+        URL url = new URL(URL_CONNECTION);
+        URLConnection CONNECTION = url.openConnection();
         StringBuilder resultJSON = new StringBuilder();
-        String API_KEY = "1f13b5ccc40bdd6bacb7acedb6d9299c";
-        String LOCATION = this.city;
-        String urlString = "http://api.openweathermap.org/data/2.5/weather?q=" + LOCATION + "&appid=" + API_KEY;
-        URL url = new URL(urlString);
-        URLConnection conn = url.openConnection();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(CONNECTION.getInputStream()));
         String line;
         while ((line = reader.readLine()) != null)
             resultJSON.append(line);
         reader.close();
-        JSONObject json = new JSONObject(resultJSON.toString());
+        return resultJSON.toString();
+    }
+    /**
+     * Function that get all weather details
+     * @param _city Parameter that url used for getting json parse results
+     */
+    public void getWeather(WeatherModel.Entry _city) throws IOException {
+        String _day = getJSONDay();
+        String _icon = getJSONIcon();
+        String _main = getJSONMain();
+        long _temperature = getJSONTemp();
+        long _windSpeed = getJSONWind();
+        long _cloudiness = getJSONCloud();
+        long _pressure = getJSONPressure();
+        long _humidity = getJSONHumidity();
 
-        JSONArray weather = json.getJSONArray("weather");
-        JSONObject main = json.getJSONObject("main");
-        JSONObject wind = json.getJSONObject("wind");
-        JSONObject clouds = json.getJSONObject("clouds");
-
-        applySetters(weather,main,wind,clouds);
+        City = new WeatherInfo(_city, _day,_icon,_main,_temperature,_windSpeed,_cloudiness,_pressure,_humidity);
 
         Logger log = Logger.getInstance();
-        log.write(json.toString(),"logFile.txt", this.city);
+        log.write(weatherJSON.toString(),"logFile.txt", _city.getCity().toString());
+    }
+    /**
+     * Functions that parse the json to return the field we want
+     */
+    public long getJSONHumidity() {
+        return weatherJSON.getJSONObject("main").getLong("humidity");
     }
 
-    public void applySetters(JSONArray weather, JSONObject main, JSONObject wind, JSONObject clouds){
-        setDay();
-        setTemperature(main);
-        setPressure(main);
-        setHumidity(main);
-        setWindSpeed(wind);
-        setCloudiness(clouds);
-        setIcon(weather);
-        setMain(weather);
+    public long getJSONPressure() {
+        return weatherJSON.getJSONObject("main").getLong("pressure");
     }
 
-    //Setters for all the private fields
-    public void setDay(){
+    public long getJSONCloud() {
+        return weatherJSON.getJSONObject("clouds").getLong("all");
+    }
+
+    public long getJSONWind() {
+        return weatherJSON.getJSONObject("wind").getLong("speed");
+    }
+
+    public long getJSONTemp() {
+        return Math.round(weatherJSON.getJSONObject("main").getDouble("temp") - 273.15);
+    }
+
+    public String getJSONMain() {
+        return weatherJSON.getJSONArray("weather").getJSONObject(0).getString("description");
+    }
+
+    public String getJSONDay(){
         DateFormat dateFormat = new SimpleDateFormat("EEEE hh:mm aa");
         Date date = new Date();
-        this.day = dateFormat.format(date);
+        return dateFormat.format(date);
     }
 
-    public void setTemperature(JSONObject main){
-        this.temperature = Math.round(main.getDouble("temp") - 273.15);
+    public String getJSONIcon(){
+        ImageHandler img = new ImageHandler();
+        File file = new File(img.getImage(weatherJSON.getJSONArray("weather").getJSONObject(0).getString("icon")));
+        return file.toURI().toString();
     }
-
-    public void setPressure(JSONObject main){
-        this.pressure = main.getLong("pressure");
-    }
-
-    public void setHumidity(JSONObject main){
-        this.humidity = main.getLong("humidity");
-    }
-
-    public void setWindSpeed(JSONObject wind){
-        this.windSpeed = wind.getLong("speed");
-    }
-
-    public void setCloudiness(JSONObject clouds){
-        this.cloudiness = clouds.getLong("all");
-    }
-
-    public void setIcon(JSONArray weather){
-        File file = new File(ImageHandler.getImage(weather.getJSONObject(0).getString("icon")));
-        this.icon = file.toURI().toString();
-    }
-
-    public void setMain(JSONArray weather){
-        this.main = weather.getJSONObject(0).getString("description");
-    }
-
-    //Getters for all the private fields
+    /**
+     * Getters for private fields
+     */
     public String getCity() {
-        return city;
+        return City.getCity();
     }
 
     public String getDay() {
-        return day;
+        return City.getDay();
     }
 
-    public long getTemperature() {
-        return temperature;
+    public static long getTemperature() {
+        return City.getTemperature();
     }
 
     public long getWindSpeed() {
-        return windSpeed;
+        return City.getWindSpeed();
     }
 
     public long getCloudiness() {
-        return cloudiness;
+        return City.getCloudiness();
     }
 
     public long getPressure() {
-        return pressure;
+        return City.getPressure();
     }
 
     public long getHumidity() {
-        return humidity;
+        return City.getHumidity();
     }
 
     public String getIcon() {
-        return icon;
+        return City.getIcon();
     }
 
-    public String getMain(){
-        return main;
+    public static String getMain(){
+        return City.getMain();
     }
+
+    public String getCountry() { return City.getCountry(); }
 }

@@ -1,7 +1,12 @@
 package ro.mta.se.lab.model;
 
 public class ImageHandler {
-    public static String getImage(String icon) {
+    /**
+     * Class implementing the Image Handler
+     *
+     * @author Panțucu Flavius-Marian
+     */
+    public String getImage(String icon) {
         switch (icon){
             case "01d":
                 return "src/main/resources/images/01d.png";

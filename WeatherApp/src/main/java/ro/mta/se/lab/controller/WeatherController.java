@@ -2,7 +2,6 @@ package ro.mta.se.lab.controller;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -12,20 +11,31 @@ import javafx.scene.control.Label;
 import ro.mta.se.lab.model.WeatherManager;
 import ro.mta.se.lab.model.WeatherModel;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * Class implementing the Controller part of the application
+ * Implements functions that fill the lists of cities and countries
+ * Also implements the function that shows weather results
+ *
+ * @author Panțucu Flavius-Marian
+ */
 public class WeatherController {
+    /**
+     * Member description
+     */
     private WeatherManager wManager;
     private WeatherModel data;
     private String inputFile;
-
+    /**
+     * Controller class constructor
+     * @param _infile Parameter tells us our start configuration
+     */
     public WeatherController(String _infile){
         this.inputFile = _infile;
     }
-
+    /**
+     * FXML Member description
+     */
     @FXML
     private ImageView myImg;
     @FXML
@@ -34,10 +44,12 @@ public class WeatherController {
     private Label myCityLabel, myTempLabel, myDescriptionLabel, dateLabel, myAditionalLabel;
     @FXML
     private Label myHumidityLabel, myCloudinessLabel, myWindSpeedLabel, myPressureLabel;
-
+    /**
+     * FXML initialization function
+     */
     @FXML
     private void initialize() throws IOException {
-        this.data = new WeatherModel(this.inputFile);
+        data = new WeatherModel(this.inputFile);
         populateCountryList(data.getCountryList());
 
         myCountryBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
@@ -51,8 +63,8 @@ public class WeatherController {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    wManager = new WeatherManager(newValue);
-                    wManager.getWeather();
+                    WeatherModel.Entry city = data.getCityEntry(newValue);
+                    wManager = new WeatherManager(city);
                     showWeather();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -60,20 +72,29 @@ public class WeatherController {
             }
         });
     }
-
+    /**
+     * Function where we fill the FXML countryList to be shown to user.
+     * @param _countryList Parameter list with the countries we gonna show
+     */
     private void populateCountryList(ArrayList<StringProperty> _countryList){
         for (StringProperty country : _countryList)
             myCountryBox.getItems().addAll(country.get());
     }
-
+    /**
+     * Function where we fill the FXML countryList to be shown to user.
+     * @param _cityList Parameter list with the cities we gonna show
+     * @param _country Parameter name of the country to sort the list with cities.
+     */
     private void populateCityList(ArrayList<WeatherModel.Entry> _cityList, String _country){
         myCityBox.getItems().clear();
         for (WeatherModel.Entry city : _cityList){
-            if(city.getCountry().get().equals(_country))
-                myCityBox.getItems().add(city.getCity().get());
+            if(city.getCountry().equals(_country))
+                myCityBox.getItems().add(city.getCity());
         }
     }
-
+    /**
+     * Function that shows weather details on the interface.
+     */
     private void showWeather() throws IOException {
         myDescriptionLabel.setText(wManager.getMain());
         myCityLabel.setText(wManager.getCity());
